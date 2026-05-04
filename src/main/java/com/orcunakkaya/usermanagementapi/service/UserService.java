@@ -3,6 +3,7 @@ package com.orcunakkaya.usermanagementapi.service;
 import com.orcunakkaya.usermanagementapi.dto.request.UserCreateRequest;
 import com.orcunakkaya.usermanagementapi.dto.response.UserResponse;
 import com.orcunakkaya.usermanagementapi.entity.User;
+import com.orcunakkaya.usermanagementapi.exception.UserNotFoundException;
 import com.orcunakkaya.usermanagementapi.mapper.UserMapper;
 import com.orcunakkaya.usermanagementapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,12 @@ public class UserService {
                 .toList();
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
+    public UserResponse getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
+        return UserMapper.toResponse(user);
+    }
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
