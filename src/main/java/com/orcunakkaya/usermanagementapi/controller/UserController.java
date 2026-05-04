@@ -3,6 +3,7 @@ package com.orcunakkaya.usermanagementapi.controller;
 import com.orcunakkaya.usermanagementapi.dto.request.UserCreateRequest;
 import com.orcunakkaya.usermanagementapi.dto.response.UserResponse;
 import com.orcunakkaya.usermanagementapi.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserCreateRequest request) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserCreateRequest request) {
         UserResponse response = userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
