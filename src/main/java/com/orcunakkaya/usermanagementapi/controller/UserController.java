@@ -1,5 +1,7 @@
 package com.orcunakkaya.usermanagementapi.controller;
 
+import com.orcunakkaya.usermanagementapi.dto.request.UserCreateRequest;
+import com.orcunakkaya.usermanagementapi.dto.response.UserResponse;
 import com.orcunakkaya.usermanagementapi.entity.User;
 import com.orcunakkaya.usermanagementapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserResponse createUser(@RequestBody UserCreateRequest request) {
+        return userService.createUser(request);
     }
 
     @GetMapping
