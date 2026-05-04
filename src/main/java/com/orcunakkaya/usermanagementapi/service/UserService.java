@@ -1,6 +1,7 @@
 package com.orcunakkaya.usermanagementapi.service;
 
 import com.orcunakkaya.usermanagementapi.dto.request.UserCreateRequest;
+import com.orcunakkaya.usermanagementapi.dto.request.UserUpdateRequest;
 import com.orcunakkaya.usermanagementapi.dto.response.UserResponse;
 import com.orcunakkaya.usermanagementapi.entity.User;
 import com.orcunakkaya.usermanagementapi.exception.UserNotFoundException;
@@ -41,5 +42,18 @@ public class UserService {
         User user = UserMapper.toEntity(request);
         User savedUser = userRepository.save(user);
         return UserMapper.toResponse(savedUser);
+    }
+
+    public UserResponse updateUser(Long id, UserUpdateRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setAge(request.getAge());
+
+        User updatedUser = userRepository.save(user);
+
+        return UserMapper.toResponse(updatedUser);
     }
 }
